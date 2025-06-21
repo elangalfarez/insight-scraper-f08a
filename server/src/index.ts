@@ -6,7 +6,7 @@ import cors from 'cors';
 import superjson from 'superjson';
 import { z } from 'zod';
 
-import { 
+import {
   createQueryInputSchema,
   updateQueryStatusInputSchema,
   createProductInputSchema,
@@ -38,51 +38,34 @@ const appRouter = router({
   healthcheck: publicProcedure.query(() => {
     return { status: 'ok', timestamp: new Date().toISOString() };
   }),
-
-  // Query management
   createQuery: publicProcedure
     .input(createQueryInputSchema)
     .mutation(({ input }) => createQuery(input)),
-
   getQuery: publicProcedure
     .input(z.string())
     .query(({ input }) => getQuery(input)),
-
   getQueryHistory: publicProcedure
-    .input(z.number().int().positive().optional())
-    .query(({ input }) => getQueryHistory(input)),
-
+    .query(() => getQueryHistory()),
   updateQueryStatus: publicProcedure
     .input(updateQueryStatusInputSchema)
     .mutation(({ input }) => updateQueryStatus(input)),
-
-  // Product management
   createProduct: publicProcedure
     .input(createProductInputSchema)
     .mutation(({ input }) => createProduct(input)),
-
-  // Review management
   bulkCreateReviews: publicProcedure
     .input(bulkCreateReviewsInputSchema)
     .mutation(({ input }) => bulkCreateReviews(input)),
-
   updateReviewSentiment: publicProcedure
     .input(updateReviewSentimentInputSchema)
     .mutation(({ input }) => updateReviewSentiment(input)),
-
-  // Keyword management
   bulkCreateKeywords: publicProcedure
     .input(bulkCreateKeywordsInputSchema)
     .mutation(({ input }) => bulkCreateKeywords(input)),
-
-  // Recommendation management
   bulkCreateRecommendations: publicProcedure
     .input(bulkCreateRecommendationsInputSchema)
     .mutation(({ input }) => bulkCreateRecommendations(input)),
-
-  // Cleanup
   cleanupExpiredQueries: publicProcedure
-    .mutation(() => cleanupExpiredQueries()),
+    .mutation(() => cleanupExpiredQueries())
 });
 
 export type AppRouter = typeof appRouter;

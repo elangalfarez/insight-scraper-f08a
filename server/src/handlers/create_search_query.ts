@@ -3,7 +3,7 @@ import { db } from '../db';
 import { queriesTable } from '../db/schema';
 import { type CreateQueryInput, type Query } from '../schema';
 
-export const createQuery = async (input: CreateQueryInput): Promise<Query> => {
+export const createSearchQuery = async (input: CreateQueryInput): Promise<Query> => {
   try {
     // Insert query record
     const result = await db.insert(queriesTable)
